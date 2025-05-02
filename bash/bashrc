@@ -1,0 +1,35 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+PS1='[\u@\h \W]\$ '
+
+# nice history settings
+shopt -s histappend
+shopt -s cmdhist
+
+HISTSIZE=5000000
+HISTFILESIZE=100000
+HISTCONTROL="erasedups:ignoreboth"
+
+# nice cd settings
+bind "set completion-ignore-case on"
+shopt -s cdable_vars
+
+export School="$HOME/Code/School"
+export web="$HOME/Code/Repos/lorn.us"
+export Repos="$HOME/Code/Repos"
+export Documents="$HOME/Documents"
+export Downloads="$HOME/Downloads"
+
+export CLICOLOR=1
+
+source "$HOME/.config/bash/profile"
+
+
+

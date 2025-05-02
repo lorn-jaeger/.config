@@ -1,0 +1,9 @@
+# shortcuts
+alias vim="nvim"
+
+# colorful output
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias ip='ip -color=auto'
+alias tree='tree -C'
+alias diff='diff --color=auto'
