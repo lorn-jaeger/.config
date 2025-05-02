@@ -1,0 +1,7 @@
+# ~/.config/.gitignore
+*
+!bash/
+!alacritty/
+!nvim/
+!i3/
+!.gitignore
