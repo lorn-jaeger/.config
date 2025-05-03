@@ -1,7 +1,6 @@
 # ~/.config/.gitignore
-*
-!bash/
-!alacritty/
-!nvim/
-!i3/
-!.gitignore
+mozilla/
+pulse/
+systemd/
+go/
+yay/
