@@ -1,34 +1,34 @@
 #!/bin/bash
 
-# File: ~/.config/git/hooks/post-commit
-
 CACHE_DIR="$HOME/.local/cache/git"
 mkdir -p "$CACHE_DIR"
 
-# Get commit metadata
-REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
-COMMIT_SHA=$(git rev-parse HEAD)
-AUTHOR=$(git config user.name)
-TIMESTAMP=$(date +"%Y-%m-%d_%H:%M:%S")
+git rev-parse HEAD~1 &>/dev/null || exit 0
 
-# Run cloc on changes (exclude notebooks, config files, etc.)
-CLOC_OUTPUT=$(cloc --quiet --diff HEAD~1 HEAD --exclude-ext=ipynb,json,md,txt,yml,yaml 2>/dev/null)
+REPO_NAME=$(basename $(git rev-parse --show-toplevel))
+TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
-# Extract total lines added (from cloc's SUM: line)
-ADDED=$(echo "$CLOC_OUTPUT" | awk '/SUM:/ {print $5}')
-ADDED=${ADDED:-0}  # Default to 0 if empty
+{
+  echo "=== $TIMESTAMP $REPO_NAME ==="
+  cloc --quiet --diff HEAD~1 HEAD --exclude-ext=ipynb,json 2>&1
+  echo
+} >> "$CACHE_DIR/cloc_raw.log"
 
-# Update running total
+ADDED=$(tac "$CACHE_DIR/cloc_raw.log" | awk '
+  /^SUM:/ {
+    while(getline) {
+      if ($0 ~ /added/) {
+        print $NF
+        exit
+      }
+    }
+  }
+')
+ADDED=${ADDED:-0}
+
 TOTAL_FILE="$CACHE_DIR/total_lines"
 CURRENT_TOTAL=$(cat "$TOTAL_FILE" 2>/dev/null || echo "0")
 NEW_TOTAL=$((CURRENT_TOTAL + ADDED))
-echo "$NEW_TOTAL" > "$TOTAL_FILE"
+echo "$NEW_TOTAL" > "$TOTAL_FILE.tmp" && mv "$TOTAL_FILE.tmp" "$TOTAL_FILE"
 
-# Log detailed activity (timestamp, repo, commit, lines added)
-LOG_FILE="$CACHE_DIR/coding_activity.csv"
-[ ! -f "$LOG_FILE" ] && echo "timestamp,repo,commit,lines_added" > "$LOG_FILE"
-echo "$TIMESTAMP,$REPO_NAME,$COMMIT_SHA,$ADDED" >> "$LOG_FILE"
-
-# Optional: Per-language stats
-LANG_LOG="$CACHE_DIR/language_stats.csv"
-echo "$TIMESTAMP,$REPO_NAME,$(echo "$CLOC_OUTPUT" | grep -E '^[A-Za-z]+:' | tr '\n' ';')" >> "$LANG_LOG"
+echo "[DEBUG] Added $ADDED lines (New total: $NEW_TOTAL)" >> "$CACHE_DIR/cloc_raw.log"
