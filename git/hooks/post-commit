@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# File: ~/.config/git/hooks/post-commit
+
+CACHE_DIR="$HOME/.local/cache/git"
+mkdir -p "$CACHE_DIR"
+
+# Get commit metadata
+REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
+COMMIT_SHA=$(git rev-parse HEAD)
+AUTHOR=$(git config user.name)
+TIMESTAMP=$(date +"%Y-%m-%d_%H:%M:%S")
+
+# Run cloc on changes (exclude notebooks, config files, etc.)
+CLOC_OUTPUT=$(cloc --quiet --diff HEAD~1 HEAD --exclude-ext=ipynb,json,md,txt,yml,yaml 2>/dev/null)
+
+# Extract total lines added (from cloc's SUM: line)
+ADDED=$(echo "$CLOC_OUTPUT" | awk '/SUM:/ {print $5}')
+ADDED=${ADDED:-0}  # Default to 0 if empty
+
+# Update running total
+TOTAL_FILE="$CACHE_DIR/total_lines"
+CURRENT_TOTAL=$(cat "$TOTAL_FILE" 2>/dev/null || echo "0")
+NEW_TOTAL=$((CURRENT_TOTAL + ADDED))
+echo "$NEW_TOTAL" > "$TOTAL_FILE"
+
+# Log detailed activity (timestamp, repo, commit, lines added)
+LOG_FILE="$CACHE_DIR/coding_activity.csv"
+[ ! -f "$LOG_FILE" ] && echo "timestamp,repo,commit,lines_added" > "$LOG_FILE"
+echo "$TIMESTAMP,$REPO_NAME,$COMMIT_SHA,$ADDED" >> "$LOG_FILE"
+
+# Optional: Per-language stats
+LANG_LOG="$CACHE_DIR/language_stats.csv"
+echo "$TIMESTAMP,$REPO_NAME,$(echo "$CLOC_OUTPUT" | grep -E '^[A-Za-z]+:' | tr '\n' ';')" >> "$LANG_LOG"
