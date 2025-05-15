@@ -7,18 +7,24 @@
 
 
 # Global properties
+
+[aur-update]
+command=$SCRIPT_DIR/aur-update
+markup=pango
+format=json
+interval=43200
+UPDATE_COLOR=red
+QUIET=1
+IGNORE=root vidyodesktop
+#CACHE_UPDATES=0
+#FORCE_IPV4=1
+
 separator=true
 separator_block_width=15
 
 [pomodoro]
 command=~/.config/i3blocks/pomodoro.sh
 interval=1
-
-[git-loc]
-command=cat ~/.local/cache/git/total_lines || echo 0
-interval=1
-label=Lifetime LOC: 
-color=#89CFF0
 
 [public-ip]
 command=wget -qO - icanhazip.com

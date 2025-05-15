@@ -15,6 +15,7 @@ if [ -d "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
+export PATH="$HOME/.local/bin/pycharm/bin:$PATH"
 
 # --- Load aliasrc ---
 if [[ -f "$HOME/.config/bash/aliasrc" ]]; then
