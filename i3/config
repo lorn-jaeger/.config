@@ -51,7 +51,10 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec alacritty
 
 # external monitor above laptop monitor
-exec --no-startup-id xrandr --output HDMI-2 --above eDP-1
+
+exec --no-startup-id xrandr --output eDP1 --auto --primary \
+       --output HDMI2 --auto --above eDP1
+
 
 
 bindsym $mod+w exec firefox-developer-edition
@@ -117,17 +120,17 @@ set $ws9 "9"
 set $ws10 "10"
 
 # bind workspaces to the monitors i want
-workspace $ws10 output eDP-1
+workspace $ws10 output eDP1
 
-workspace $ws1 output HDMI-2
-workspace $ws2 output HDMI-2
-workspace $ws3 output HDMI-2
-workspace $ws4 output HDMI-2
-workspace $ws5 output HDMI-2
-workspace $ws6 output HDMI-2
-workspace $ws7 output HDMI-2
-workspace $ws8 output HDMI-2
-workspace $ws9 output HDMI-2
+workspace $ws1 output HDMI2
+workspace $ws2 output HDMI2
+workspace $ws3 output HDMI2
+workspace $ws4 output HDMI2
+workspace $ws5 output HDMI2
+workspace $ws6 output HDMI2
+workspace $ws7 output HDMI2
+workspace $ws8 output HDMI2
+workspace $ws9 output HDMI2
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
