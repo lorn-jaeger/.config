@@ -1,8 +1,11 @@
-# ~/.config/.gitignore
-mozilla/
-pulse/
-systemd/
-go/
-yay/
-GIMP/
-Jetbrains/
+*
+
+!i3/
+!i3/*
+!tmux/
+!tmux/*
+!alacritty/
+!alacritty/*
+!nvim/
+!nvim/*
+
