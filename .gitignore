@@ -7,5 +7,5 @@
 !alacritty/
 !alacritty/*
 !nvim/
-!nvim/*
+!nvim/**/*
 
