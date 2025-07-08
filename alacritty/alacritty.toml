@@ -3,6 +3,12 @@ bindings = [
   { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" }
 ]
 
+[general]
+import = [
+    "~/.config/alacritty/themes/themes/gruvbox_dark.toml"
+]
+
+
 [window]
 opacity = 0.8
 
