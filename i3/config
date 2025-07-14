@@ -12,8 +12,8 @@ set $down j
 # font for the bar
 font pango:monospace 8
 
-gaps inner 10
-gaps outer 5
+gaps inner 0 
+gaps outer 0
 
 default_border pixel 4
 default_floating_border pixel 4
