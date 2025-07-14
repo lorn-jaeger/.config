@@ -120,6 +120,8 @@ set $ws9 "9"
 set $ws10 "10"
 
 # bind workspaces to the monitors i want
+
+workspace $ws9 output eDP1
 workspace $ws10 output eDP1
 
 workspace $ws1 output HDMI2
@@ -130,7 +132,6 @@ workspace $ws5 output HDMI2
 workspace $ws6 output HDMI2
 workspace $ws7 output HDMI2
 workspace $ws8 output HDMI2
-workspace $ws9 output HDMI2
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
