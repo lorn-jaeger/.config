@@ -52,6 +52,13 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+vim.keymap.set('n', '<leader>tt', function()
+  local dir = vim.fn.expand '%:p:h'
+  vim.cmd('lcd ' .. vim.fn.fnameescape(dir))
+  vim.cmd 'vsplit'
+  vim.cmd 'term'
+end, { desc = "VSplit terminal in current file's directory" })
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -110,8 +117,24 @@ require('lazy').setup({
         persist_size = true,
       }
 
-      -- Optional: terminal-specific keymaps
-      vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { desc = 'Exit terminal mode' })
+      local Terminal = require('toggleterm.terminal').Terminal
+
+      -- Override default toggle with one that uses current file's directory
+      function _G.ToggleTermInFileDir()
+        local cwd = vim.fn.expand '%:p:h' or vim.loop.cwd()
+        local term = Terminal:new {
+          dir = cwd,
+          direction = 'vertical',
+          hidden = true,
+        }
+        term:toggle()
+      end
+
+      -- Remap the toggle to use your new behavior
+      vim.keymap.set('n', '<C-\\>', ToggleTermInFileDir, { desc = 'Toggle term in file dir' })
+
+      -- Escape to normal mode in terminal (optional)
+      vim.keymap.set('t', '<C-x>', [[<C-\><C-n>]], { desc = 'Exit terminal mode' })
     end,
   },
 
