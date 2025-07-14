@@ -711,6 +711,13 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
+      vim.api.nvim_create_autocmd('TermOpen', {
+        pattern = 'term://*',
+        callback = function()
+          vim.b.ministatusline_disable = true
+        end,
+      })
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
