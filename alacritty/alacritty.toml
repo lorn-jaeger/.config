@@ -4,12 +4,9 @@ bindings = [
 ]
 
 [window]
-opacity = 0.8
+opacity = 0.75
 
 
-[window.padding]
-x = 8
-y = 8
 
 # Colors Modus-Vivendi
 [colors.normal]
