@@ -9,6 +9,39 @@ vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'netrw',
+  callback = function()
+    vim.cmd 'vertical resize 25' -- force width to 10
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+  end,
+})
+
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25 -- has no effect when using :vsplit | Explore
+
+vim.keymap.set('n', '<leader>n', function()
+  -- If netrw is already open, just switch to it
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(win))
+    if bufname:match 'NetrwTree' or bufname:match 'netrw' then
+      vim.api.nvim_set_current_win(win)
+      return
+    end
+  end
+  -- Otherwise, open it in a vertical split on the left
+  vim.cmd 'topleft vsplit | Explore'
+end, { desc = 'Open netrw in left vertical split' })
+
+vim.api.nvim_create_autocmd('TermOpen', {
+  pattern = '*',
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+  end,
+})
+
 vim.o.breakindent = true
 vim.o.undofile = true
 vim.o.ignorecase = true
