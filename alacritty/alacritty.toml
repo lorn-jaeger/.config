@@ -5,6 +5,8 @@ bindings = [
 
 [window]
 opacity = 0.75
+padding = { x = 0, y = 0 }
+
 
 
 

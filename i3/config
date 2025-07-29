@@ -9,6 +9,9 @@ set $right l
 set $up k
 set $down j
 
+
+bindsym $mod+b bar mode toggle
+
 # font for the bar
 font pango:monospace 8
 
