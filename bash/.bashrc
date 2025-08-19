@@ -16,6 +16,10 @@ bind "set completion-ignore-case on"
 
 #alias nvim="$HOME/.local/bin/nvim-linux-x86_64/bin/nvim"
 
+PATH="$PATH":"$HOME/.local/scripts/"
+bind '"\C-f":"tmux-sessionizer\n"'
+bind '"\C-b":"distrobox-sessionizer\n"'
+
 
 export EDITOR=nvim
 

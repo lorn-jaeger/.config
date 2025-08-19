@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# you can't just && cd because distrobox launches a subshell. kinda annoying but whatever
+distrobox enter $(distrobox list --no-color | awk -F '|' 'NR <= 1 { next } { print $2 }' | fzf) -- bash -c "cd && exec bash"
