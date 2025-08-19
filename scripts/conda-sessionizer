@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# now i'm just getting carried away
+conda activate "$(jq -r '.envs[]' <<<"$(conda env list --json)" | awk -F/ '{print $NF ":" $0}' | fzf | cut -d: -f2)"
